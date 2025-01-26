@@ -30,7 +30,8 @@ Project for Large-Scale Computing (LSC) classes focused on processing AlphaFold 
 3. **Google Cloud and API**:  
    - Each method required creating a project in Google Cloud and obtaining an API key.  
 4. **Batch data processing**:  
-   - Due to the file limit, a batch solution was implemented: download-process-delete in single batch.  
+   - A batch solution was implemented: downloading, processing, and deleting files in a single batch. 
+   - However, this approach was not fully utilized due to the client object’s non-serializability.
 5. **PLGrid infrastructure**:  
    - Tools like `gsutil` and `gcloud storage` are not available in the PLGrid infrastructure, so tests were conducted locally.  
 6. **Scaling and parallelism**:  
