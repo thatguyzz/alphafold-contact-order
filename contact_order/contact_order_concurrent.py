@@ -74,10 +74,20 @@ def calculate_contact_order(cif_file, distance_cutoff=8.0):
         return {"file": cif_file, "contact_order": None, "error": str(e)}
 
 
-def process_cif_files(file_list, distance_cutoff=8.0, max_workers=16):
+def process_cif_files(file_list, distance_cutoff=8.0, max_workers=4):
+    results = []
+
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         tasks = {executor.submit(calculate_contact_order, file, distance_cutoff): file for file in file_list}
-    return tasks
+
+        for future in as_completed(tasks):
+            try:
+                result = future.result()
+                results.append(result)
+            except Exception as e:
+                results.append({"file": tasks[future], "contact_order": None, "error": str(e)})
+
+    return results
 
 
 if __name__ == "__main__":
